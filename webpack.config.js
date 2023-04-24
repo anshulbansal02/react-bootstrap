@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 module.exports = {
   entry: path.resolve(__dirname, "src", "index.tsx"),
@@ -32,6 +33,13 @@ module.exports = {
   },
 
   plugins: [
+    new ModuleFederationPlugin({
+      name: "reactBootstrap",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./": "./src/index.tsx",
+      },
+    }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "public", "index.html"),
     }),
